@@ -1,13 +1,15 @@
 \contentsline {section}{\numberline {I}Introduction}{1}{}%
 \contentsline {subsection}{\numberline {\mbox {I-A}}Research questions}{1}{}%
-\contentsline {subsection}{\numberline {\mbox {I-B}}Literature review}{1}{}%
-\contentsline {subsection}{\numberline {\mbox {I-C}}Our contribution}{1}{}%
-\contentsline {section}{\numberline {II}Simulation setup}{1}{}%
-\contentsline {subsection}{\numberline {\mbox {II-A}}mFRR}{1}{}%
-\contentsline {subsection}{\numberline {\mbox {II-B}}Demand-side assets}{2}{}%
-\contentsline {subsection}{\numberline {\mbox {II-C}}Shapley as payment mechanism}{2}{}%
-\contentsline {section}{\numberline {III}Results}{3}{}%
-\contentsline {subsection}{\numberline {\mbox {III-A}}Synergy effect of assets}{3}{}%
-\contentsline {subsection}{\numberline {\mbox {III-B}}Payment allocation}{3}{}%
-\contentsline {section}{\numberline {IV}Conclusion}{3}{}%
-\contentsline {section}{References}{3}{}%
+\contentsline {subsection}{\numberline {\mbox {I-B}}Literature review}{2}{}%
+\contentsline {subsection}{\numberline {\mbox {I-C}}Our contribution}{2}{}%
+\contentsline {subsection}{\numberline {\mbox {I-D}}Paper structure}{2}{}%
+\contentsline {section}{\numberline {II}Simulation setup}{2}{}%
+\contentsline {subsection}{\numberline {\mbox {II-A}}mFRR}{2}{}%
+\contentsline {subsection}{\numberline {\mbox {II-B}}Demand-side assets}{3}{}%
+\contentsline {subsection}{\numberline {\mbox {II-C}}Shapley as a payment mechanism}{3}{}%
+\contentsline {section}{\numberline {III}Results}{4}{}%
+\contentsline {subsection}{\numberline {\mbox {III-A}}Synergy effect of assets}{4}{}%
+\contentsline {subsection}{\numberline {\mbox {III-B}}Payment allocation}{4}{}%
+\contentsline {section}{\numberline {IV}Future work}{5}{}%
+\contentsline {section}{\numberline {V}Conclusion}{5}{}%
+\contentsline {section}{References}{5}{}%

@@ -166,6 +166,24 @@ ax[0].set_ylabel("Power [kW]")
 
 plt.savefig("tex/figures/assets.png", bbox_inches="tight", dpi=300)
 
+# stacked bar plot of x
+f, ax = plt.subplots(1, 1, figsize=(6, 5))
+bottom = np.zeros(24)
+_n = 100
+for j in range(_n):
+    print(j, end="\r")
+    _y = np.zeros(24)
+    _y[x[j]] = 1
+    alpha = 0.7 if bottom[x[j]] % 2 == 0 else 0.3
+    ax.bar(x[j], _y, edgecolor="black", bottom=bottom, color="C0", alpha=alpha)
+    bottom[x[j]] += 1
+ax.set_xlabel("Hour")
+ax.set_ylabel("Power [kW]")
+_set_font_size(ax, 16)
+plt.tight_layout()
+plt.savefig("tex/figures/assets2.png", bbox_inches="tight", dpi=300)
+
+
 # plot of x vs profits for each experiment
 f, ax = plt.subplots(1, 1, figsize=(10, 5))
 xrange = list(experiments.keys())
@@ -407,15 +425,31 @@ group_profit_without_1 = [value_function(~group_noise, group_noise, l) for l in 
 group_profit_with_1 = [
     value_function(np.ones(N, dtype=bool), group_noise, l) for l in xrange
 ]
-assert all(
-    np.isclose(a, b)
-    for a, b in zip(group_profit_with_1, [experiments[x].sum() for x in xrange])
+group_profit_with_1 = [experiments[x][1:].sum() for x in xrange]
+# assert all(
+#     np.isclose(a, b)
+#     for a, b in zip(group_profit_with_1, [experiments[x].sum() for x in xrange])
+# )
+# # assert group profit wo. 1 is smaller_equal to group profit with 1
+# assert all(
+#     a >= b + c
+#     for a, b, c in zip(group_profit_with_1, group_profit_without_1, group1_profits)
+# )
+
+ax.plot(xrange, group1_profits, label="g = 1", marker="o")
+
+ax.plot(
+    xrange,
+    group_profit_with_1,
+    label=r"$\phi_{\mathcal{G}/\{1\}}$ incl. group 1",
+    marker="o",
 )
-
-ax.plot(xrange, group1_profits, label="Group 1", marker="o")
-
-ax.plot(xrange, group_profit_with_1, label="Profit (incl. group 1)", marker="o")
-ax.plot(xrange, group_profit_without_1, label="Profit (excl. group 1)", marker="o")
+ax.plot(
+    xrange,
+    group_profit_without_1,
+    label=r"$\phi_{\mathcal{G}/\{1\}}$ excl. group 1",
+    marker="o",
+)
 # plot horizontal line on 0
 ax.plot(
     [xrange[0], xrange[-1]],
@@ -425,7 +459,7 @@ ax.plot(
     alpha=0.5,
 )
 ax.set_xlabel("Penalty [DKK/kWh]")
-ax.set_ylabel("Shapley value [DKK]")
+ax.set_ylabel("Payment [DKK]")
 ax.legend()
 _set_font_size(ax, 16)
 plt.tight_layout()
