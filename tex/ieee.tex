@@ -38,11 +38,11 @@
     \textsuperscript{\textdagger}IBM Client Innovation Center, Copenhagen, Denmark
     % <-this % stops a space
     \thanks{
-    %Corresponding author. Tel.: +45 24263865. \\ 
-    Email addresses: pega@dtu.dk (P.A.V. Gade), Trygve.Skjotskift@ibm.com (T. Skjøtskift), hwbi@dtu.dk (H.W. Bindner), jalal@dtu.dk (J. Kazempour).}% <-this % stops a space
-%    \thanks{Manuscript received April 19, 2021; revised August 16, 2021.} \\
+        %Corresponding author. Tel.: +45 24263865. \\ 
+        Email addresses: pega@dtu.dk (P.A.V. Gade), Trygve.Skjotskift@ibm.com (T. Skjøtskift), hwbi@dtu.dk (H.W. Bindner), jalal@dtu.dk (J. Kazempour).}% <-this % stops a space
+    %    \thanks{Manuscript received April 19, 2021; revised August 16, 2021.} \\
 
-\vspace{-8mm}
+    \vspace{-8mm}
 }
 
 % \footnote{Corresponding author. Tel.: +45 24263865. \\ Email addresses: pega@dtu.dk (P.A.V. Gade), Trygve.Skjotskift@ibm.com (T. Skjøtskift), hwbi@dtu.dk (H.W. Bindner), jalal@dtu.dk (J. Kazempour).}
@@ -178,15 +178,6 @@ To keep it simple, we consider assets that deviates from their operational basel
 
 An asset in eq. (\ref{eq:uniform}) could for example be a ventilation unit that is turned on randomly for one hour each day. For an aggregator, it is therefore not possible to estimate $p^{\text{mFRR}}_{h, i}$ accurately, but as $|\mathcal{I}|$ increases, the portfolio consumption converges to a predictable uniform consumption for all $h \in \{1 \hdots 24 \}$ so $p^{\text{mFRR}}_{h}$ becomes predictable.
 
-This fact is readily illustrated in Figure \ref{fig:assets} where a single asset consumes randomly, but the portfolio consumption is uniform and fairly predictable.\footnote{The aggregated distribution approaches a uniform distribution as the number of assets increases.}
-
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=\columnwidth]{figures/assets2.png}
-    \caption{Simulation of power consumption of 100 assets using eq. (\ref{eq:uniform}). One rectangle represents consumption of an asset.}
-    \label{fig:assets}
-\end{figure}
-
 
 This is of course a stylized example as most assets have some degree of predictability, but it is sufficient to show a very relevant problem for aggregators of small-scale, uncertain demand-side assets: in the beginning, the aggregator cannot estimate the reserve capacity of the portfolio, but as the number of assets increases, it becomes much easier.
 
@@ -224,7 +215,18 @@ Furthermore, the Shapley value has desirable economic properties such as individ
 
 \section{Results}\label{sec:Results}
 
-In this section, we first show results for the synergy effect when the number of assets in the portfolio increases. Afterwards, we consider the payment allocation to flexible providers and investigate the impact of a flexible provider not delivering any up-regulation but only capacity.
+In this section, we first show the assets being simulated and the flexible demands (groups) within the aggregated portfolio. Then results for the synergy effect is shown when the number of assets in the portfolio increases. Afterwards, we consider the payment allocation to flexible providers and investigate the impact of a flexible provider not delivering any up-regulation but only capacity.
+
+\subsection{Visualization of groups and assets}
+
+Figure \ref{fig:assets} shows this point: the portfolio consumption is uniform and fairly predictable where each group is less predictable and each asset within each group even more so.\footnote{The aggregated distribution approaches a uniform distribution as the number of assets increases.}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/assets2.png}
+    \caption{Simulation of power consumption of 1000 assets using eq. (\ref{eq:uniform}) with six flexible demands that each has a group of assets (assets are represented as small rectangles within each group).}
+    \label{fig:assets}
+\end{figure}
 
 \subsection{Synergy effect of assets}
 

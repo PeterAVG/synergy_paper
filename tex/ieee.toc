@@ -8,8 +8,9 @@
 \contentsline {subsection}{\numberline {\mbox {II-B}}Demand-side assets}{3}{}%
 \contentsline {subsection}{\numberline {\mbox {II-C}}Shapley as a payment mechanism}{3}{}%
 \contentsline {section}{\numberline {III}Results}{4}{}%
-\contentsline {subsection}{\numberline {\mbox {III-A}}Synergy effect of assets}{4}{}%
-\contentsline {subsection}{\numberline {\mbox {III-B}}Payment allocation}{4}{}%
-\contentsline {section}{\numberline {IV}Future work}{5}{}%
-\contentsline {section}{\numberline {V}Conclusion}{5}{}%
-\contentsline {section}{References}{5}{}%
+\contentsline {subsection}{\numberline {\mbox {III-A}}Visualization of groups and assets}{4}{}%
+\contentsline {subsection}{\numberline {\mbox {III-B}}Synergy effect of assets}{4}{}%
+\contentsline {subsection}{\numberline {\mbox {III-C}}Payment allocation}{4}{}%
+\contentsline {section}{\numberline {IV}Future work}{4}{}%
+\contentsline {section}{\numberline {V}Conclusion}{4}{}%
+\contentsline {section}{References}{4}{}%

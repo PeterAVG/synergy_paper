@@ -148,8 +148,8 @@ import seaborn as sns
 
 from src.utils import _set_font_size
 
-sns.set_theme()
-sns.set(font_scale=1.5)
+# sns.set_theme()
+# sns.set(font_scale=1.5)
 
 
 # plot histogram of x
@@ -158,7 +158,7 @@ ax = ax.ravel()
 # plot barplot for first asset
 asset1 = np.zeros(24)
 asset1[x[0]] = 1
-ax[0].bar(np.arange(24), asset1, edgecolor="black")
+ax[0].bar(np.arange(1, 25), asset1, edgecolor="black")
 ax[1].hist(x, bins=24, edgecolor="black")
 ax[0].set_xlabel("Hour")
 ax[1].set_xlabel("Hour")
@@ -167,22 +167,65 @@ ax[0].set_ylabel("Power [kW]")
 plt.savefig("tex/figures/assets.png", bbox_inches="tight", dpi=300)
 
 # stacked bar plot of x
+G = 5
+groups = rng.integers(1, G + 1, N)
 f, ax = plt.subplots(1, 1, figsize=(6, 5))
 bottom = np.zeros(24)
-_n = 100
-for j in range(_n):
+# _n = 200
+# assert _n < len(x)
+# for j in range(_n):
+colors = sns.color_palette("tab10", G)
+for j in range(G + 1):
+    ix = groups == j
     print(j, end="\r")
     _y = np.zeros(24)
-    _y[x[j]] = 1
-    alpha = 0.7 if bottom[x[j]] % 2 == 0 else 0.3
-    ax.bar(x[j], _y, edgecolor="black", bottom=bottom, color="C0", alpha=alpha)
-    bottom[x[j]] += 1
+    # count number of times each hour is activated from x[ix]
+    for i in range(24):
+        _y[i] = np.sum(x[ix] == i)
+    # _y[x[j]] = 1
+    # alpha = 0.7 if bottom[x[j]] % 2 == 0 else 0.3
+    color = colors[j - 1]
+    # ax.bar(x[j]+1, _y, edgecolor="black", bottom=bottom, color=color)
+    ax.bar(
+        np.arange(1, 25),
+        _y,
+        edgecolor="black",
+        bottom=bottom,
+        color=color,
+        label=f"Group {j+1}",
+        width=1.0,
+        alpha=0.7,
+    )
+    # ax.bar(x[j]+1, _y, bottom=bottom, color="C0")
+    bottom += _y.copy()
+    # if j == 7:
+    #     break
+
+# plot hlines for each hour and y-integer if bottom < y
+for i in range(24):
+    for j in range(int(bottom.max())):
+        if j < bottom[i]:
+            ax.hlines(
+                j,
+                i + 1 - 0.5,
+                i + 2 - 0.5,
+                color="black",
+                linestyle="-.",
+                linewidth=1.0,
+                alpha=0.3,
+            )
+
 ax.set_xlabel("Hour")
+ax.set_xlim(0.5, 24.5)
+# ax.set_ylim(0, 3)
 ax.set_ylabel("Power [kW]")
-_set_font_size(ax, 16)
+ax.legend()
+_set_font_size(ax, 16, 8)
 plt.tight_layout()
 plt.savefig("tex/figures/assets2.png", bbox_inches="tight", dpi=300)
 
+sns.set_theme()
+sns.set(font_scale=1.5)
 
 # plot of x vs profits for each experiment
 f, ax = plt.subplots(1, 1, figsize=(10, 5))
@@ -201,7 +244,7 @@ ax.set_xlabel("# of assets")
 ax.set_ylabel("Synergy effect")
 ax.legend()
 
-_set_font_size(ax, 16)
+_set_font_size(ax, 16, 20)
 
 plt.tight_layout()
 
@@ -426,6 +469,12 @@ group_profit_with_1 = [
     value_function(np.ones(N, dtype=bool), group_noise, l) for l in xrange
 ]
 group_profit_with_1 = [experiments[x][1:].sum() for x in xrange]
+
+# calculate profit of coalition = {group 1} only to show individual rationality for group 1
+group1_profits_on_its_own = [
+    value_function(group_noise, group_noise, l) for l in xrange
+]
+
 # assert all(
 #     np.isclose(a, b)
 #     for a, b in zip(group_profit_with_1, [experiments[x].sum() for x in xrange])
@@ -436,7 +485,7 @@ group_profit_with_1 = [experiments[x][1:].sum() for x in xrange]
 #     for a, b, c in zip(group_profit_with_1, group_profit_without_1, group1_profits)
 # )
 
-ax.plot(xrange, group1_profits, label="g = 1", marker="o")
+ax.plot(xrange, group1_profits, label=r"$\phi_{\{1\}}$ incl. group 2-6", marker="o")
 
 ax.plot(
     xrange,
@@ -450,6 +499,14 @@ ax.plot(
     label=r"$\phi_{\mathcal{G}/\{1\}}$ excl. group 1",
     marker="o",
 )
+
+ax.plot(
+    xrange,
+    group1_profits_on_its_own,
+    label=r"$\phi_{\{1\}}$ excl. group 2-6",
+    marker="o",
+)
+
 # plot horizontal line on 0
 ax.plot(
     [xrange[0], xrange[-1]],
@@ -461,6 +518,12 @@ ax.plot(
 ax.set_xlabel("Penalty [DKK/kWh]")
 ax.set_ylabel("Payment [DKK]")
 ax.legend()
+# sort legends
+handles, labels = ax.get_legend_handles_labels()
+_handles = handles[:1] + handles[-1:] + handles[1:3]
+_labels = labels[:1] + labels[-1:] + labels[1:3]
+ax.legend(_handles, _labels, loc="best")
+
 _set_font_size(ax, 16)
 plt.tight_layout()
 # save figure
