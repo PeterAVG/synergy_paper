@@ -21,6 +21,7 @@
 \usepackage[mode=buildnew]{standalone}
 \usepackage{tikz}
 \usetikzlibrary{calc,arrows,patterns,intersections}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
 \usepackage{pgfplots}
 \usepackage{xcolor}
 \usepgfplotslibrary{fillbetween}
@@ -30,22 +31,26 @@
 \begin{document}
 
 
-\title{Demand-side Flexibility Synergy: Form a Coalition To Earn More}
+\title{Synergy Among Flexible Demands: Form a Coalition to Earn More from Reserve Market}
 
 \author{Peter A.V. Gade\textsuperscript{*}\textsuperscript{\textdagger}, Trygve Skjøtskift\textsuperscript{\textdagger}, Henrik W. Bindner\textsuperscript{*}, Jalal Kazempour\textsuperscript{*} \\
     \textsuperscript{*}Department of Wind and Energy Systems, Technical University of Denmark, Kgs. Lyngby, Denmark \\
     \textsuperscript{\textdagger}IBM Client Innovation Center, Copenhagen, Denmark
     % <-this % stops a space
-    \thanks{Corresponding author. Tel.: +45 24263865. \\ Email addresses: pega@dtu.dk (P.A.V. Gade), Trygve.Skjotskift@ibm.com (T. Skjøtskift), hwbi@dtu.dk (H.W. Bindner), jalal@dtu.dk (J. Kazempour).}% <-this % stops a space
-    \thanks{Manuscript received April 19, 2021; revised August 16, 2021.}}
+    \thanks{
+    %Corresponding author. Tel.: +45 24263865. \\ 
+    Email addresses: pega@dtu.dk (P.A.V. Gade), Trygve.Skjotskift@ibm.com (T. Skjøtskift), hwbi@dtu.dk (H.W. Bindner), jalal@dtu.dk (J. Kazempour).}% <-this % stops a space
+%    \thanks{Manuscript received April 19, 2021; revised August 16, 2021.} \\
+
+\vspace{-8mm}
+}
 
 % \footnote{Corresponding author. Tel.: +45 24263865. \\ Email addresses: pega@dtu.dk (P.A.V. Gade), Trygve.Skjotskift@ibm.com (T. Skjøtskift), hwbi@dtu.dk (H.W. Bindner), jalal@dtu.dk (J. Kazempour).}
 
 % The paper headers
-\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
-{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+%\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
 
-\IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
 % Remember, if you use this you must call \IEEEpubidadjcol in the second
 % column for its text to clear the IEEEpubid mark.
 
@@ -55,11 +60,11 @@
 
 \begin{abstract}
     % It has been well shown how demand-side flexibility can provide services to the power grid through an aggregator with no emissions. However, the aggregator still faces two, mostly unexplored, fundamental problems: 1) how many demand-side assets are needed in order to achieve a synergy effect? And 2) how are payments allocated to individual flexible providers downstream of the aggregator? This paper answers these two questions using simulations of uncertain assets to illustrate the synergy effect, and Shapley values are used as a payment allocation mechanism. As a use case, manual frequency restoration reserves (mFRR) are used as the ancillary service targeted by the aggregator with real prices from 2022.
-    We show how providers of flexible power consumption can earn more collectively than individually by forming a coalition with other flexible providers through an aggregator. This synergy effect is quantified with an example in terms of number of assets in the coalition. A subsequent payment allocation mechanism using Shapley values is proposed to incentivize flexible providers to remain in the coalition. This is shown when bidding into manual frequency restoration reserves (mFRR) in the Danish ancillary services using real price data. Varying the penalty for missed delivery of flexibility showcases the contribution for such a flexible provider and the incentives to remain in the coalition.
+    We show how flexible demands can earn more collectively than individually by forming a coalition and bidding to the reserve market. This synergy effect is quantified as a function of the number of heterogeneous assets in the coalition. Flexible demands, together as a single participant, bid to the manual Frequency Restoration Reserve (mFRR) market. A subsequent payment allocation mechanism using Shapley values is proposed to distribute the earning among demands, while incentivizing them to remain in the coalition. For our numerical study, we use real price data from the Danish mFRR market. The value of synergy is explored by varying the penalty for missed delivery of flexibility.
 \end{abstract}
 
 \begin{IEEEkeywords}
-    Demand-side flexibility. mFRR. Synergy effect. Shapley values. Payment allocation.
+    Demand-side flexibility, Synergy effect, manual frequency restoration reserve, Shapley values, payment allocation
 \end{IEEEkeywords}
 
 % TO BE DELETED
@@ -67,7 +72,8 @@
 
 \section{Introduction}\label{sec:Introduction}
 
-It has been well shown how demand-side flexibility can provide ancillary services to the power grid through an \textit{aggregator} with no emissions. In Denmark, such \textit{ancillary services} should explicitly be provided using baseline forecasts for the aggregator's flexibility for stochastic flexibility resources, including demand-side flexibility, as prescribed in the official documentation for prequalification to ancillary services by the Transmission System Operator (TSO)\footnote{In Denmark, the TSO is Energinet.} \cite{energinet:prequalification}. Thus, aggregation of assets happen not only due to minimum bid requirements \cite{energinet:Systemydelser} but because of the synergy effect of the aggregation itself.
+It has been extensively addressed in the literature how flexible demands can provide ancillary services to the power grid through an aggregator \red{[x]-[x]}.
+The key is that these services must explicitly be provided using baseline forecasts for the aggregator's flexibility for stochastic flexible resources, including demand-side flexibility, as prescribed in the official documentation for pre-qualification to ancillary services by  the Danish Transmission System Operator (TSO), Energinet \cite{energinet:prequalification}. Thus, aggregation of flexible assets is incentivized not only due to meeting minimum bid requirements \cite{energinet:Systemydelser} but also due to the potential synergy effect of the aggregation.
 
 Several private initiatives for providing demand-side flexibility take place already in Denmark. For example, IBM is spearheading these with their Flex Platform which connects, controls, aggregates heterogenous assets in the commercial and industrial sector. This aggregated flexibility is monetized through ancillary services such as mFRR (see Section \ref{sec:mFRR}). The flexible consumers providing this flexibility, also called \textit{flexible providers}, earn money from thus and can potentially include $CO_{2}$ savings in their accounting.
 
@@ -76,6 +82,8 @@ Aggregation platforms such as the Flex Platform faces two fundamental problems: 
 The first question is answered using a stylized example of uncertain demand by quantifying the synergy effect versus the number of assets required in an aggregator portfolio. We show how individual assets are inherently unpredictable on their own but predictable within a portfolio.
 
 The second question is answered by proposing Shapley values \cite{shapley1997value} as a mechanism to pay flexible providers for their contribution to the portfolio. This provides economic properties such as individual rationality and budget balance that incentivize flexible providers to stay in the aggregator portfolio, i.e., \textit{coalition}, as opposed to act selfishly. This payment is illustrated through an example of six flexible providers, each with numerous assets, in a coalition which an aggregator use for mFRR bidding. In this example, the first flexible provider only provides flexible capacity but no actual up-regulation. In this way, the penalty for doing so can be varied to assess the contribution of the flexible provider to the coalition.
+
+\IEEEpubidadjcol
 
 \subsection{Research questions}
 
@@ -87,8 +95,6 @@ To summarize, we aim to answer the following research questions:
 \end{itemize}
 
 Simulations are used to answer these questions but with real price data for mFRR from 2022.
-
-\IEEEpubidadjcol
 
 \subsection{Literature review}
 
@@ -183,6 +189,8 @@ This fact is readily illustrated in Figure \ref{fig:assets} where a single asset
 
 
 This is of course a stylized example as most assets have some degree of predictability, but it is sufficient to show a very relevant problem for aggregators of small-scale, uncertain demand-side assets: in the beginning, the aggregator cannot estimate the reserve capacity of the portfolio, but as the number of assets increases, it becomes much easier.
+
+\red{Furthermore, our definition of an asset is valid for any type of asset, including TCLs. For example, freezers might consumer an extra, unordinary amount of energy due to food refills or other unexpected events. Also, the temperature thresholds might be violated which renders flexibility provision impossible. This situation is simulated as explained in the next section.}
 
 With profit being defined as in eq. (\ref{eq:mFRR_profit}), the synergy effect of the portfolio is then:
 
