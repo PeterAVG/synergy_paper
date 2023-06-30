@@ -48,7 +48,7 @@ ax.step(
 )
 
 ax.set_ylabel("Price [DKK/kWh]")
-ax.set_xlabel("Days")
+ax.set_xlabel("Days (2022)")
 ax.legend(loc="best")
 ax.xaxis.set_tick_params(rotation=45)
 _set_font_size(ax, misc=16, legend=16)

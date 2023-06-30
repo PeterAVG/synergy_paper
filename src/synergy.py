@@ -285,6 +285,7 @@ N = 1000
 BURN_IN = 10
 M = data_loader.M - BURN_IN
 # M = np.minimum(40, M)
+print(f"Number of days in experiment: {M}")
 
 
 def value_function(
@@ -496,25 +497,27 @@ group1_profits_on_its_own = [
 #     for a, b, c in zip(group_profit_with_1, group_profit_without_1, group1_profits)
 # )
 
-ax.plot(xrange, group1_profits, label=r"$\phi_{\{1\}}$ incl. group 2-5", marker="o")
+ax.plot(
+    xrange, group1_profits, label=r"$\phi_{\{1\}}$ including demand 2-5", marker="o"
+)
 
 ax.plot(
     xrange,
     group_profit_with_1,
-    label=r"$\phi_{\mathcal{G}/\{1\}}$ incl. group 1",
+    label=r"$\phi_{\mathcal{D}/\{1\}}$ including demand 1",
     marker="o",
 )
 ax.plot(
     xrange,
     group_profit_without_1,
-    label=r"$\phi_{\mathcal{G}/\{1\}}$ excl. group 1",
+    label=r"$\phi_{\mathcal{D}/\{1\}}$ excluding demand 1",
     marker="o",
 )
 
 ax.plot(
     xrange,
     group1_profits_on_its_own,
-    label=r"$\phi_{\{1\}}$ excl. group 2-5",
+    label=r"$\phi_{\{1\}}$ excluding demand 2-5",
     marker="o",
 )
 
@@ -528,14 +531,22 @@ ax.plot(
 )
 ax.set_xlabel("Penalty [DKK/kWh]")
 ax.set_ylabel("Payment [DKK]")
-ax.legend()
 # sort legends
 handles, labels = ax.get_legend_handles_labels()
 _handles = handles[:1] + handles[-1:] + handles[1:3]
 _labels = labels[:1] + labels[-1:] + labels[1:3]
-ax.legend(_handles, _labels, loc="best")
+# ax.legend(_handles, _labels, loc="best")
+ax.legend(
+    _handles,
+    _labels,
+    bbox_to_anchor=(0.5, 1.20),
+    loc="upper center",
+    ncol=2,
+    fancybox=True,
+    shadow=True,
+)
 
-_set_font_size(ax, 16)
+_set_font_size(ax, 12, 12)
 plt.tight_layout()
 # save figure
 plt.savefig("tex/figures/shapley_values.png", dpi=300)
