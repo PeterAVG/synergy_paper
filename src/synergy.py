@@ -174,8 +174,10 @@ bottom = np.zeros(24)
 # _n = 200
 # assert _n < len(x)
 # for j in range(_n):
+# create G colors:
 colors = sns.color_palette("tab10", G)
-for j in range(G + 1):
+# colors = ["C1", "C2", "C3", "C4", "C5"]
+for j in range(1, G + 1):
     ix = groups == j
     print(j, end="\r")
     _y = np.zeros(24)
@@ -192,7 +194,7 @@ for j in range(G + 1):
         edgecolor="black",
         bottom=bottom,
         color=color,
-        label=f"Group {j+1}",
+        label=f"Demand {j}",
         width=1.0,
         alpha=0.7,
     )
@@ -219,7 +221,16 @@ ax.set_xlabel("Hour")
 ax.set_xlim(0.5, 24.5)
 # ax.set_ylim(0, 3)
 ax.set_ylabel("Power [kW]")
-ax.legend()
+
+# place legend outside of plot on top
+ax.legend(
+    bbox_to_anchor=(0.5, 1.20),
+    loc="upper center",
+    ncol=3,
+    fancybox=True,
+    shadow=True,
+)
+
 _set_font_size(ax, 16, 8)
 plt.tight_layout()
 plt.savefig("tex/figures/assets2.png", bbox_inches="tight", dpi=300)
