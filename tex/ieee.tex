@@ -65,7 +65,7 @@
 \begin{abstract}
     % It has been well shown how demand-side flexibility can provide services to the power grid through an aggregator with no emissions. However, the aggregator still faces two, mostly unexplored, fundamental problems: 1) how many demand-side assets are needed in order to achieve a synergy effect? And 2) how are payments allocated to individual flexible demands downstream of the aggregator? This paper answers these two questions using simulations of uncertain assets to illustrate the synergy effect, and Shapley values are used as a payment allocation mechanism. As a use case, manual frequency restoration reserves (mFRR) are used as the ancillary service targeted by the aggregator with real prices from 2022.
     We address potential synergy among flexible demands and how they may earn more collectively than individually by forming a coalition and bidding to the reserve market.
-    We consider frequency-supporting ancillary service markets, particularly the manual Frequency Restoration Reserve (mFRR) market. 
+    We consider frequency-supporting ancillary service markets, particularly the manual Frequency Restoration Reserve (mFRR) market.
     The coalition of flexible demands provides more reliable mFRR services, where in comparison to individual demands, is penalized less for their potential failure and is paid more for their successful activation. This synergy effect is quantified as a function of the number of homogeneous assets in the coalition. A subsequent payment allocation mechanism using Shapley values is proposed to distribute the total earnings of the coalition among demands, while incentivizing them to remain in the coalition. For our numerical study, we use real price data from the Danish mFRR market in 2022.
 \end{abstract}
 
@@ -79,9 +79,9 @@
 \vspace{-2mm}
 \section{Introduction}\label{sec:Introduction}
 \subsection{Background}
-It has been extensively addressed in the literature how the aggregation of flexible demands can provide frequency-supporting ancillary services to the power system \cite{biegel2014value}, \cite{macdonald2020demand}. By ancillary services, we refer to various forms of reserves, booked by the Transmission System Operator (TSO) in advance, to activate them in the operational stage, if necessary. The key for ancillary service provision by the aggregation of flexible demands is the availability of a \textit{baseline forecast} of total consumption. The TSO should approve in advance the process adopted by the aggregation of demands for their baseline forecast. This has been prescribed in the official documentation of the Danish TSO, Energinet, issued for the pre-qualification of demand-side resources for ancillary service provision \cite{energinet:prequalification}. 
+It has been extensively addressed in the literature how the aggregation of flexible demands can provide frequency-supporting ancillary services to the power system \cite{biegel2014value}, \cite{macdonald2020demand}. By ancillary services, we refer to various forms of reserves, booked by the Transmission System Operator (TSO) in advance, to activate them in the operational stage, if necessary. The key for ancillary service provision by the aggregation of flexible demands is the availability of a \textit{baseline forecast} of total consumption. The TSO should approve in advance the process adopted by the aggregation of demands for their baseline forecast. This has been prescribed in the official documentation of the Danish TSO, Energinet, issued for the pre-qualification of demand-side resources for ancillary service provision \cite{energinet:prequalification}.
 
-The aggregation of flexible demands is incentivized for at least two reasons: (\textit{i}) to meet the minimum bid size requirement, if existed, for ancillary service markets \cite{energinet:Systemydelser}, and (\textit{ii}) to unlock the potential \textit{synergy} among flexible demands. By synergy, we refer to operational circumstances under which the aggregation of flexible demands, compared to individual demands, may provide ancillary services with a higher level of reliability, i.e., a lower rate of delivery failure in the activation stage. By this, the whole aggregation is penalized less for their potential failure and paid more for their successful activation. We do not consider a case that, by aggregation, flexible demands may offer a larger volume of ancillary services. Hereafter, we refer to the aggregation of flexible demands as a \textit{coalition}, being operated by an \textit{aggregator}. Here, we consider that the aggregator represents the coalition, aiming to maximize the total profit of the coalition. The aggregator may charge flexible demands for its service, which is not part of this study.  
+The aggregation of flexible demands is incentivized for at least two reasons: (\textit{i}) to meet the minimum bid size requirement, if existed, for ancillary service markets \cite{energinet:Systemydelser}, and (\textit{ii}) to unlock the potential \textit{synergy} among flexible demands. By synergy, we refer to operational circumstances under which the aggregation of flexible demands, compared to individual demands, may provide ancillary services with a higher level of reliability, i.e., a lower rate of delivery failure in the activation stage. By this, the whole aggregation is penalized less for their potential failure and paid more for their successful activation. We do not consider a case that, by aggregation, flexible demands may offer a larger volume of ancillary services. Hereafter, we refer to the aggregation of flexible demands as a \textit{coalition}, being operated by an \textit{aggregator}. Here, we consider that the aggregator represents the coalition, aiming to maximize the total profit of the coalition. The aggregator may charge flexible demands for its service, which is not part of this study.
 
 Several private initiatives for the provision of demand-side flexibility via forming coalitions  are currently taking place in Denmark. For example, IBM is developing their \textit{Flex Platform}, aiming to aggregate and control heterogeneous assets in  commercial and industrial sectors. The aggregated flexibility is then shaped as flexibility services to be sold in various ancillary service markets running by the TSO, among which the market for manual Frequency Restoration Reserve (mFRR), also known as tertiary reserve, has usually the largest trading volume. The collected profit is supposed to be allocated among flexible demands in a fair manner. In addition, flexible demands might be further incentivized by being informed about their contribution to the CO$_{2}$ savings.
 
@@ -92,8 +92,8 @@ Aggregation platforms such as the \textit{Flex Platform} of IBM face two fundame
 
 We answer the first question by quantifying the synergy effect in terms of total earning of the coalition as a function of the number of assets within the coalition. For simplicity, we assume identical flexible assets, and limit our question to their number. The future work should extend the question by also considering the heterogeneity  of assets as a further degree of freedom. We show how individual assets are inherently unpredictable on their own, but comparatively more predictable within the coalition.
 
-We then answer the second question by proposing Shapley values \cite{shapley1997value} as a mechanism to reward flexible demands for their contribution to the coalition. This provides desirable economic properties such as individual rationality and budget balance that incentivize flexible demands to stay in the coalition, as opposed to acting individually. We illustrate this payment mechanism  using a stylized example of six flexible demands, each with numerous assets, in a coalition, for which the aggregator bids in the mFRR market only. We conduct our simulations based on real price data of the Danish mFRR market from 2022.
- 
+We then answer the second question by proposing Shapley values \cite{shapley1997value} as a mechanism to reward flexible demands for their contribution to the coalition. This provides desirable economic properties such as individual rationality and budget balance that incentivize flexible demands to stay in the coalition, as opposed to acting individually. We illustrate this payment mechanism  using a stylized example of five flexible demands, each with numerous assets, in a coalition, for which the aggregator bids in the mFRR market only. We conduct our simulations based on real price data of the Danish mFRR market from 2022.
+
 %In this example, the first flexible provider only provides flexible capacity but no actual up-regulation. In this way, the penalty for doing so can be varied to assess the contribution of the flexible provider to the coalition.
 
 %\IEEEpubidadjcol
@@ -116,9 +116,9 @@ Reference \cite{biegel2014value} investigates the value of flexible consumption 
 %
 It has been shown in \cite{pedersen2014aggregation} how a portfolio of supermarkets can deliver a granular power response which is made possible by the number of supermarkets and their assets. Although it has not been explicitly mentioned, it refers to a form of synergy effect, because an aggregator requires a certain number of controllable assets to deliver a granular power response. However, the estimation and value of flexibility ex-ante is not tied together with any synergy effect. Note that  demand-side synergy is also known in other domains such as strategic and organizational diversification \cite{ye2012achieving}, but here we specifically address demand-side flexibility for ancillary services in power systems.
 
-For the coalition of flexible demands, the baseline estimation is key, from which the aggregator estimates the flexible capacity, as prescribed by the Danish TSO \cite{energinet:prequalification}. Note that the coalition of flexible demands does not necessarily have an operational baseline schedule as a generation unit does \cite{gade2022ecosystem}. 
+For the coalition of flexible demands, the baseline estimation is key, from which the aggregator estimates the flexible capacity, as prescribed by the Danish TSO \cite{energinet:prequalification}. Note that the coalition of flexible demands does not necessarily have an operational baseline schedule as a generation unit does \cite{gade2022ecosystem}.
 %
-In this work, we show how the baseline estimation becomes a more  straightforward task due to the synergy effect among assets within the coalition. In addition, it is important to estimate the baseline while being aware of potential counterfactual consumption when a flexible demand is activated. This problem has been studied extensively. Reference \cite{ziras2021baselines} explains why baselines are not necessarily suited for harnessing flexibility in the distribution grid, whereas \cite{capacity_limitation_services} instead shows how a mechanism based on capacity limitation services may work more successfully in practice. Nonetheless, for the TSO-level ancillary services aiming to instantaneously balance total production and total demand in the entire system, the baseline approach is generally adopted as a common practice. Some studies have proposed more innovative mechanisms as alternatives. For example,  \cite{muthirayan2019mechanism} proposes a mechanism by which the aggregator relies on self-reported baselines from individual flexible demands, removing the incentive to inflate baselines. In our setting, this is not straightforward to be implemented, since flexible demands have generally no capability or expertise to report their own baselines. Recall that flexible demands have their other primary business purposes, and prefer to not get involved in complicated mechanisms. 
+In this work, we show how the baseline estimation becomes a more  straightforward task due to the synergy effect among assets within the coalition. In addition, it is important to estimate the baseline while being aware of potential counterfactual consumption when a flexible demand is activated. This problem has been studied extensively. Reference \cite{ziras2021baselines} explains why baselines are not necessarily suited for harnessing flexibility in the distribution grid, whereas \cite{capacity_limitation_services} instead shows how a mechanism based on capacity limitation services may work more successfully in practice. Nonetheless, for the TSO-level ancillary services aiming to instantaneously balance total production and total demand in the entire system, the baseline approach is generally adopted as a common practice. Some studies have proposed more innovative mechanisms as alternatives. For example,  \cite{muthirayan2019mechanism} proposes a mechanism by which the aggregator relies on self-reported baselines from individual flexible demands, removing the incentive to inflate baselines. In our setting, this is not straightforward to be implemented, since flexible demands have generally no capability or expertise to report their own baselines. Recall that flexible demands have their other primary business purposes, and prefer to not get involved in complicated mechanisms.
 %Therefore, the aggregator has no incentive to inflate any of its flexible demands' baselines anyway. 
 %In this work, we only rely on baseline estimation on the coalition level. Then Shapley values \cite{shapley1997value} are used as a mechanism to allocate payments to flexible demands within the portfolio as opposed to using baseline forecasts per flexible demand.
 
@@ -132,7 +132,7 @@ In this work, we show how the baseline estimation becomes a more  straightforwar
 \subsection{Paper organization}
 \vspace{-1mm}
 The rest of the paper is organized as follows.
-Section \ref{chapter2} introduces the proposed simulation setup. This includes an introduction to the mFRR services, an optimization model, and how Shapley values work as a payment mechanism in this context. Section \ref{chapter3} provides numerical results, illustrating the synergy among a number of assets and the corresponding payment allocation mechanism. Finally, Section \ref{chapter4} concludes the paper and outlines  potential directions for the future work. 
+Section \ref{chapter2} introduces the proposed simulation setup. This includes an introduction to the mFRR services, an optimization model, and how Shapley values work as a payment mechanism in this context. Section \ref{chapter3} provides numerical results, illustrating the synergy among a number of assets and the corresponding payment allocation mechanism. Finally, Section \ref{chapter4} concludes the paper and outlines  potential directions for the future work.
 
 \section{Simulation setup}
 \label{chapter2}
@@ -144,7 +144,7 @@ Ancillary services including mFRR are exploited by the TSO to balance the power 
 For further details about mFRR, see  \cite{energinet:prequalification}, \cite{energinet:Systemydelser}, and \cite{energinet:tender_conditions_reserves}.
 
 \subsection{Optimization problem of the aggregator}
-We use historical mFRR market prices, balancing market prices, and spot (day-ahead) market prices from DK1 bidding zone (western Denmark) in 2022 \cite{energinet:energidataservice}, denoted by $\lambda_{h}^{\text{mFRR}}$, $\lambda_{h}^{\text{b}}$, and $\lambda_{h}^{\text{s}}$, respectively,  for every hour $h$. The constant penalty price for the failure in the activation stage is denoted by $\lambda^{\text{p}}$. We assume a daily time horizon, and run the simulation for all days in 2022. For simplicity, we do not consider potential sources of uncertainty. 
+We use historical mFRR market prices, balancing market prices, and spot (day-ahead) market prices from DK1 bidding zone (western Denmark) in 2022 \cite{energinet:energidataservice}, denoted by $\lambda_{h}^{\text{mFRR}}$, $\lambda_{h}^{\text{b}}$, and $\lambda_{h}^{\text{s}}$, respectively,  for every hour $h$. The constant penalty price for the failure in the activation stage is denoted by $\lambda^{\text{p}}$. We assume a daily time horizon, and run the simulation for all days in 2022. For simplicity, we do not consider potential sources of uncertainty.
 
 At the stage that the hourly baseline consumption forecasts $P^{\text{Base}}_{h}$ of the collation are given, the objective function of the aggregator is to maximize the total profit for the coalition, which can be mathematically formulated as
 %
@@ -168,17 +168,17 @@ In reality, there is a bidding process for both capacity and up-regulation, howe
 
 %\subsection{Demand-side assets}
 
-In \eqref{eq:mFRR_profit}, variables $p^{\text{mFRR}}_{h}$, $p^{\text{b},\uparrow}_{h}$, and $s_{h}$ correspond to the whole coalition. Each asset $i$ in the coalition has its own baseline for power consumption, $p_{h, i}$ $\forall{i} \in \mathcal{I}$, such that 
+In \eqref{eq:mFRR_profit}, variables $p^{\text{mFRR}}_{h}$, $p^{\text{b},\uparrow}_{h}$, and $s_{h}$ correspond to the whole coalition. Each asset $i$ in the coalition has its own baseline for power consumption, $p_{h, i}$ $\forall{i} \in \mathcal{I}$, such that
 %
 \begin{subequations} \label{con}
     \begin{align}
-        p^{\text{mFRR}}_{h}        & = \sum_{i} p^{\text{mFRR}}_{h, i}        \\
+        p^{\text{mFRR}}_{h}        & = \sum_{i} p^{\text{mFRR}}_{h, i}       \\
         p^{\text{b}, \uparrow}_{h} & = \sum_{i}p^{\text{b}, \uparrow}_{h, i} \\
         s_{h}                      & = \sum_{i} s_{h, i}.
     \end{align}
 \end{subequations}
 %
-By this, the variable set of the optimization problem \eqref{eq:mFRR_profit}-\eqref{con} is extended to $p^{\text{mFRR}}_{h, i}$, $p^{\text{b}, \uparrow}_{h, i}$, $s_{h, i}$, $p^{\text{mFRR}}_{h}$, $p^{\text{b},\uparrow}_{h}$, and $s_{h}$. 
+By this, the variable set of the optimization problem \eqref{eq:mFRR_profit}-\eqref{con} is extended to $p^{\text{mFRR}}_{h, i}$, $p^{\text{b}, \uparrow}_{h, i}$, $s_{h, i}$, $p^{\text{mFRR}}_{h}$, $p^{\text{b},\uparrow}_{h}$, and $s_{h}$.
 
 
 %An asset is defined as any power consuming device\footnote{This including batteries in principle, but these are ignored here.} such as a heat pump, freezer, ventilation system, air condition unit, or boiler, etc. The aggregator can also have high-consuming assets such as a zinc galvanizing furnace, a swimming pool, waste-water centrifugation units, etc.
@@ -188,9 +188,9 @@ For simplicity, we consider assets that deviate from their baseline consumption 
 %
 \begin{align}\label{eq:uniform}
     p_{h,i} \thinspace = \begin{cases}
-                                         1 & \text{if} \quad h = h^{\prime} \sim \mathcal{U}(1,24) \\
-                                         0 & \text{otherwise.}
-                                     \end{cases}
+                             1 & \text{if} \quad h = h^{\prime} \sim \mathcal{U}(1,24) \\
+                             0 & \text{otherwise.}
+                         \end{cases}
 \end{align}
 
 An example asset $i$ in \eqref{eq:uniform} is a ventilation unit that is turned on randomly for one hour each day. For an aggregator, it is therefore not possible to estimate $p^{\text{mFRR}}_{h, i}$ accurately, but as the number of assets increases, the consumption of the coalition converges to a predictable uniform consumption for all $h \in \{1, \hdots, 24 \}$, so $p^{\text{mFRR}}_{h}$ becomes more predictable. Here, the predictability simply means the prediction of the power consumption for the next day, for which more advanced methods can be used \cite{ziras2021baselines}.
@@ -216,13 +216,13 @@ The Shapley value is a well-known mechanism to allocate contributions in a coope
 Let $\mathcal{D}=\{1, \hdots, D \}$ denote the set of flexible demands $d$, each with multiple assets, altogether having assets $\mathcal{I}=\{1, \hdots, I \}$. Every asset is modeled using \eqref{eq:uniform}.
 %
 %$g$ are denoted $\mathcal{A}_{g,i} = \{1 \hdots N_g \}$. 
-Inspired by \cite{shapley1997value}, the Shapley value $\phi_d$  for the flexible demand $d$, i.e., the payment allocated to that demand, is calculated by 
+Inspired by \cite{shapley1997value}, the Shapley value $\phi_d$  for the flexible demand $d$, i.e., the payment allocated to that demand, is calculated by
 %
 \begin{align}\label{eq:shap}
     \phi_d & = \frac{1}{D} \sum_{\mathcal{S} \subseteq \mathcal{D}, d \in \mathcal{S}}\left(\begin{array}{c}
-                                                                                                    D-1 \\
-                                                                                                    |\mathcal{S}|-1
-                                                                                                \end{array}\right)^{-1}\Big[v(\mathcal{S})-v(\mathcal{S} \backslash\{i\})\Big],
+                                                                                                D-1 \\
+                                                                                                |\mathcal{S}|-1
+                                                                                            \end{array}\right)^{-1}\Big[v(\mathcal{S})-v(\mathcal{S} \backslash\{i\})\Big],
 \end{align}
 %
 where $\mathcal{S}$ represents possible subsets of the coalition, while $v(\mathcal{S})$ is the corresponding value, i.e., the profit \eqref{eq:mFRR_profit} collected by $\mathcal{S}$. Similarly, $v(\mathcal{S} \backslash\{i\})$ represents the value of coalition excluding the asset $i$. The grand coalition with the entire coalition is given by $v(\mathcal{D}) = \sum_{d \in \mathcal{D}} \phi_{d}$.
@@ -246,13 +246,13 @@ Figure \ref{fig:assets} shows the portfolio consumption. It is almost uniform an
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\columnwidth]{figures/assets2.png}
-    \caption{Simulation of power consumption of 1000 assets using eq. (\ref{eq:uniform}) with six flexible demands that each has a group of assets (assets are represented as small rectangles within each group).}
+    \caption{Simulation of power consumption of 1000 assets using eq. (\ref{eq:uniform}) with five flexible demands that each has a group of assets (assets are represented as small rectangles within each group).}
     \label{fig:assets}
 \end{figure}
 
 \subsection{Synergy effect of assets}
 
-Figure \ref{fig:synergy_effect} shows the simulation of the synergy effect using eq. (\ref{eq:uniform}) and 
+Figure \ref{fig:synergy_effect} shows the simulation of the synergy effect using eq. (\ref{eq:uniform}) and
 eq. (\ref{eq:synergy_effect}) for up to 1000 assets. Even with such uncertain assets, it only takes around 150 of these before the synergy effect flattens. In reality, much fewer assets are then needed to estimate their reserve capacity due to many real-life assets having a more predictable consumption than here..
 
 As discussed already, this of course ignores the synergy effect of controlling assets \textit{within} each hour to deliver a proper response. This probably requires a significant number of assets if all of them are ON/OFF controlled and if they are very heterogenous.
@@ -266,11 +266,11 @@ As discussed already, this of course ignores the synergy effect of controlling a
 
 \subsection{Payment allocation}
 
-Figure \ref{fig:shapley_values} shows the Shapley values for a simulation with $M = 6$, and where $g = 1$ has assets that never up-regulates and only contributes with their reserve capacity (which can never be utilized). The simulation is run for increasing values of the penalty parameter, $\lambda^{\text{p}}$.
+Figure \ref{fig:shapley_values} shows the Shapley values for a simulation with $M = 5$, and where $g = 1$ has assets that never up-regulates and only contributes with their reserve capacity (which can never be utilized). The simulation is run for increasing values of the penalty parameter, $\lambda^{\text{p}}$.
 
 Interestingly, it shows that $g_1$ actually contribute positively to the portfolio when $\lambda^{\text{p}} < 1.5$. This is simply explained by the price data and how often actual up-regulation is needed (which happens when $\lambda^{\text{b}} > \lambda^{\text{s}}$). If the power grid would need much more up-regulation, the cutoff for $\lambda^{\text{p}}$ would be lower.
 
-The green and orange lines show individual rationality for coalition $G / \{1\}$. The orange line shows the total payment to $G / \{1\}$ when $g_1$ is included in the coalition, and the green line shows the total payment to $G / \{1\}$ when $g_1$ is \textit{not} included in the coalition. Intriguingly, it shows that $G / \{1\}$ benefits from having $g_1$ in the coalition even though $g_1$ gets negative payments. Hence, $G / \{1\}$ is better off with $g_1$ in the coalition. 
+The green and orange lines show individual rationality for coalition $G / \{1\}$. The orange line shows the total payment to $G / \{1\}$ when $g_1$ is included in the coalition, and the green line shows the total payment to $G / \{1\}$ when $g_1$ is \textit{not} included in the coalition. Intriguingly, it shows that $G / \{1\}$ benefits from having $g_1$ in the coalition even though $g_1$ gets negative payments. Hence, $G / \{1\}$ is better off with $g_1$ in the coalition.
 
 Furthermore, $g_1$ also has individual rationality as seen by comparing the blue and red line. By being part of the grand coalition, $g_1$ gets paid more (or has to pay less back).
 
@@ -280,7 +280,7 @@ This readily illustrates individual rationality and the synergy effect of more f
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\columnwidth]{figures/shapley_values.png}
-    \caption{Simulation of the impact on Shapley values of the penalty price for not delivering promised capacity during up-regulation events. $g_1$ has assets with similar power consumption to $g_{2\hdots 6}$ but never up-regulates. The orange line shows payment to $G / \{1\}$ for the grand coalition, and the green line show payments to them if $g_1$ were not a part of the grand coalition. Likewise, the blue and red lines show payments to $g_1$ when participating in the grand coalition and on its own, respectively.}
+    \caption{Simulation of the impact on Shapley values of the penalty price for not delivering promised capacity during up-regulation events. $g_1$ has assets with similar power consumption to $g_{2\hdots 5}$ but never up-regulates. The orange line shows payment to $G / \{1\}$ for the grand coalition, and the green line show payments to them if $g_1$ were not a part of the grand coalition. Likewise, the blue and red lines show payments to $g_1$ when participating in the grand coalition and on its own, respectively.}
     \label{fig:shapley_values}
 \end{figure}
 

@@ -496,7 +496,7 @@ group1_profits_on_its_own = [
 #     for a, b, c in zip(group_profit_with_1, group_profit_without_1, group1_profits)
 # )
 
-ax.plot(xrange, group1_profits, label=r"$\phi_{\{1\}}$ incl. group 2-6", marker="o")
+ax.plot(xrange, group1_profits, label=r"$\phi_{\{1\}}$ incl. group 2-5", marker="o")
 
 ax.plot(
     xrange,
@@ -514,7 +514,7 @@ ax.plot(
 ax.plot(
     xrange,
     group1_profits_on_its_own,
-    label=r"$\phi_{\{1\}}$ excl. group 2-6",
+    label=r"$\phi_{\{1\}}$ excl. group 2-5",
     marker="o",
 )
 
