@@ -184,17 +184,18 @@ By this, the variable set of the optimization problem \eqref{eq:mFRR_profit}-\eq
 %An asset is defined as any power consuming device\footnote{This including batteries in principle, but these are ignored here.} such as a heat pump, freezer, ventilation system, air condition unit, or boiler, etc. The aggregator can also have high-consuming assets such as a zinc galvanizing furnace, a swimming pool, waste-water centrifugation units, etc.
 
 \subsection{Modeling individual baselines and quantifying the synergy}
-For simplicity, we consider assets that deviate from their baseline consumption in a uniform manner, i.e.,
+For simplicity, we consider homogeneous assets that are supposed to consume 1 kW in one hour of the day, and do not consume any power during the rest of the day. An example for such an asset is a ventilation unit. We uniformly distribute assets with 1-hour 1-kW consumption over the day, such that the baseline forecast $p_{h, i}$ for asset $i$ in hour $h$ is defined as
 %
 \begin{align}\label{eq:uniform}
     p_{h,i} \thinspace = \begin{cases}
-                             1 & \text{if} \quad h = h^{\prime} \sim \mathcal{U}(1,24) \\
+                             1 & \text{if} \quad h  \sim \mathcal{U}(1,24) \\
                              0 & \text{otherwise.}
                          \end{cases}
 \end{align}
 
-An example asset $i$ in \eqref{eq:uniform} is a ventilation unit that is turned on randomly for one hour each day. For an aggregator, it is therefore not possible to estimate $p^{\text{mFRR}}_{h, i}$ accurately, but as the number of assets increases, the consumption of the coalition converges to a predictable uniform consumption for all $h \in \{1, \hdots, 24 \}$, so $p^{\text{mFRR}}_{h}$ becomes more predictable. Here, the predictability simply means the prediction of the power consumption for the next day, for which more advanced methods can be used \cite{ziras2021baselines}.
-This is a stylized example as most assets have some degree of predictability, but it is sufficient to show a  relevant problem for coalitions of small-scale, uncertain demand-side assets. It is complex for the aggregator to estimate the reserve capacity of the coalition, but as the number of assets increases, it becomes more straightforward.
+For an aggregator, it is therefore complex to estimate $p^{\text{mFRR}}_{h, i}$ individually, but as the number of assets increases, the consumption of the coalition converges to a predictable uniform consumption for all $h \in \{1, \hdots, 24 \}$, so $p^{\text{mFRR}}_{h}$ becomes more predictable. Here, the predictability simply means the prediction of the power consumption for the next day, for which more advanced methods can be used \cite{ziras2021baselines}.
+This is a stylized example as most assets have some degree of predictability, but it is sufficient to show a  relevant problem for coalitions of small-scale, uncertain demand-side assets. 
+%It is complex for the aggregator to estimate the reserve capacity of the coalition, but as the number of assets increases, it becomes more straightforward.
 %Furthermore, our definition of an asset is valid for any type of asset, including thermostatically controlled loads. 
 %For example, freezers might consume an extra, unexpected amount of energy due to food refills or other exogenous events. 
 %In addition, the temperature thresholds might be violated which renders flexibility provision impossible. This situation is simulated as explained in the next section.
@@ -208,45 +209,47 @@ where the synergy effect is simply defined as the ratio between the coalition pr
 
 \subsection{Shapley values as the payment mechanism}
 %
-The Shapley value is a well-known mechanism to allocate contributions in a cooperative game \cite{shapley1997value}. This idea fits perfectly with the concept of synergy effect in a coalition of flexible demands. By using Shapley values, we fairly allocate ex-post the total profit, expressed as in \eqref{eq:mFRR_profit}, collected by the aggregator, among flexible demands.
+The Shapley value is a well-known mechanism to allocate contributions in a cooperative game \cite{shapley1997value}. This notion fits perfectly with the concept of synergy effect in a coalition of flexible demands. By using Shapley values, we fairly allocate ex-post the total profit, expressed as in \eqref{eq:mFRR_profit}, collected by the aggregator, among flexible demands.
 
 
 %Now, however, we consider a downstream problem of the aggregator, i.e., how much each flexible demand (with their assets) contributes to the whole portfolio \textit{ex-post} mFRR bidding. Hence, the aggregator has received a pot of money for the whole portfolio, i.e., eq. (\ref{eq:mFRR_profit}), and faces the problem of distributing it to the flexible demands.
 
-Let $\mathcal{D}=\{1, \hdots, D \}$ denote the set of flexible demands $d$, each with multiple assets, altogether having assets $\mathcal{I}=\{1, \hdots, I \}$. Every asset is modeled using \eqref{eq:uniform}.
+Let $\mathcal{D}=\{1, \hdots, D \}$ denote the set of flexible demands $d$, where $|\mathcal{D}|$ is the number of flexible demands. Each demand may contain multiple assets, such that $|\mathcal{D}|$ demands altogether have assets $\mathcal{I}=\{1, \hdots, I \}$. Every asset is modeled using \eqref{eq:uniform}.
 %
 %$g$ are denoted $\mathcal{A}_{g,i} = \{1 \hdots N_g \}$. 
 Inspired by \cite{shapley1997value}, the Shapley value $\phi_d$  for the flexible demand $d$, i.e., the payment allocated to that demand, is calculated by
 %
 \begin{align}\label{eq:shap}
-    \phi_d & = \frac{1}{D} \sum_{\mathcal{S} \subseteq \mathcal{D}, d \in \mathcal{S}}\left(\begin{array}{c}
-                                                                                                D-1 \\
-                                                                                                |\mathcal{S}|-1
-                                                                                            \end{array}\right)^{-1}\Big[v(\mathcal{S})-v(\mathcal{S} \backslash\{i\})\Big],
+    \phi_d & = \sum_{\mathcal{S} \subseteq \mathcal{D}, d \in \mathcal{S}} \frac{(|\mathcal{S}|-1)! \ (|\mathcal{D}|-|\mathcal{S}|)!}{|\mathcal{D}|!}\Big[v(\mathcal{S})-v(\mathcal{S} \backslash\{d\})\Big],
 \end{align}
 %
-where $\mathcal{S}$ represents possible subsets of the coalition, while $v(\mathcal{S})$ is the corresponding value, i.e., the profit \eqref{eq:mFRR_profit} collected by $\mathcal{S}$. Similarly, $v(\mathcal{S} \backslash\{i\})$ represents the value of coalition excluding the asset $i$. The grand coalition with the entire coalition is given by $v(\mathcal{D}) = \sum_{d \in \mathcal{D}} \phi_{d}$.
+where $\mathcal{S}$ represents every possible non-empty subset of the coalition, $|\mathcal{S}|$ is the number of possible subsets,  and $v(\mathcal{S})$ is the value of the coalition subset $\mathcal{S}$, which is the corresponding profit formulated as in \eqref{eq:mFRR_profit}. Similarly, $v(\mathcal{S} \backslash\{d\})$ represents the value of coalition subset $\mathcal{S}$ excluding the flexible demand $d$ with its corresponding assets. The grand coalition is the one including all demands, whose value (profit) is given by $v(\mathcal{D}) = \sum_{d \in \mathcal{D}} \phi_{d}$.
 
 %Here, $v$ is simply the profit in eq. (\ref{eq:mFRR_profit}). Thus, $v(\mathcal{S})$ represents the value of mFRR bidding for the portfolio of flexible demands given by the coalition $\mathcal{S}$. The value of the grand coalition, i.e., the whole portfolio is given by $v(\mathcal{G}) = \sum_{g \in \mathcal{G}} \phi_{g}$.
 
-The Shapley value  in \eqref{eq:shap} can be thought of as the average marginal contribution of flexible demand $d$ across all possible coalitions in $\mathcal{D}$. It can only be computed exactly for a small number of flexible demands $D$, as the number of possible coalitions is equal to $2^{D} - 1$. As $D$ grows, Shapley values can be approximated \cite{castro2009polynomial}.
+The Shapley value  in \eqref{eq:shap} can be thought of as the average marginal contribution of the flexible demand $d$ across all possible coalitions in $\mathcal{D}$. It can only be computed exactly for a relatively small number of flexible demands, as the number of  possible non-empty coalitions is equal to $2^{|\mathcal{D}|} - 1$. In this paper, we consider 5 demands, ending up in 31 possible coalitions. The Shapley values can be approximated when $|\mathcal{D}|$ grows \cite{castro2009polynomial}.
+Note that the Shapley mechanism has desirable economic properties such as individual rationality (see Section \ref{chapter3}) and budget balance.
 
-Using Shapley values as payments, the aggregator have a fair method for allocation. If one flexible provider has assets that marginally contribute with only some flexibility, it will be reflected in their Shapley value. For example, a flexible provider can have a relatively small portfolio of assets. More interestingly, a flexible provider can have many high-consuming assets that for some reason are not up-regulating when needed (as illustrated in Section \ref{sec:Results}). Using Shapley values, the aggregator can ex-post determine how much such a flexible provider contributes with. Otherwise, that can be difficult to estimate for the aggregator due to the benefit of reserve payment versus risk of not being able to up-regulate.
+%Using Shapley values, the aggregator have a fair mechanism for the payment allocation. If one flexible demand has assets that marginally contribute with limited flexibility, it will be reflected in their Shapley value. For example, a flexible demand can have a relatively small portfolio of assets. More interestingly, a flexible demand can have many high-consuming assets that for some reason are not up-regulating when needed (as illustrated in Section \ref{section3}). Using Shapley values, the aggregator can ex-post determine how much such a flexible demand contributes with. Otherwise, that can be difficult to estimate for the aggregator due to the benefit of reserve payment versus risk of not being able to up-regulate.
 
-Furthermore, the Shapley value has desirable economic properties such as individual rationality (see Section \ref{sec:Results}) and budget balance.
+
 
 \section{Results}\label{chapter3}
 
-In this section, we first show the assets being simulated and the flexible demands (groups) within the aggregated portfolio. Then results for the synergy effect is shown when the number of assets in the portfolio increases. Afterwards, we consider the payment allocation to flexible demands and investigate the impact of a flexible provider not delivering any up-regulation but only capacity.
+%In this section, we first show the assets being simulated and the flexible demands (groups) within the aggregated portfolio. Then results for the synergy effect is shown when the number of assets in the portfolio increases. Afterwards, we consider the payment allocation to flexible demands and investigate the impact of a flexible provider not delivering any up-regulation but only capacity.
 
-\subsection{Visualization of groups and assets}
+%\subsection{Visualization of groups and assets}
 
-Figure \ref{fig:assets} shows the portfolio consumption. It is almost uniform and fairly predictable where each group is less predictable and each asset within each group even more so. The aggregated distribution approaches a uniform distribution as the number of assets increases.
+We consider five flexible demands with 1000 assets in total. Each asset consumes 1 kW in one hour of the day, and nothing in the remaining hours. Figure \ref{fig:assets} shows the  consumption portfolio for a sample day, where 1000 assets, according to \eqref{eq:uniform}, are uniformly distributed among 24 hours. We consider 233 days with the same assets and ownership to five demands, however their consumption distribution over hours may differ.  
+
+Figure x illustrates the mFRR market prices $\lambda^{\text{mFRR}}$ as well as balancing market prices $\lambda^{\text{b}}$ and spot (day-ahead) market prices $\lambda^{\text{s}}$ for 233 days, consistent with the real data in DK1 for 2022. The penalty price $\lambda^{\text{p}}$ is fixed to 0.1 DKK/kWh. 
+
+%It is almost uniform and fairly predictable where each group is less predictable and each asset within each group even more so. The aggregated distribution approaches a uniform distribution as the number of assets increases.
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\columnwidth]{figures/assets2.png}
-    \caption{Simulation of power consumption of 1000 assets using eq. (\ref{eq:uniform}) with five flexible demands that each has a group of assets (assets are represented as small rectangles within each group).}
+    \caption{The consumption profile of a coalition with 1000 assets belonging to five flexible demands in a sample day. Each asset consumes 1 kW in one hour of the day.}
     \label{fig:assets}
 \end{figure}
 
@@ -257,7 +260,7 @@ eq. (\ref{eq:synergy_effect}) for up to 1000 assets. Even with such uncertain as
 
 As discussed already, this of course ignores the synergy effect of controlling assets \textit{within} each hour to deliver a proper response. This probably requires a significant number of assets if all of them are ON/OFF controlled and if they are very heterogenous.
 
-\begin{figure}[!t]
+\begin{figure}[b]
     \centering
     \includegraphics[width=\columnwidth]{figures/synergy_effect.png}
     \caption{Simulation of the impact on the synergy effect by increasing the number of assets. The rolling mean shows the average of the past 40 values.}
