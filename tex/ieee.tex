@@ -132,7 +132,7 @@ In this work, we show how the baseline estimation becomes a more  straightforwar
 \subsection{Paper organization}
 \vspace{-1mm}
 The rest of the paper is organized as follows.
-Section \ref{chapter2} introduces the proposed simulation setup. This includes an introduction to the mFRR services, an optimization model, and how Shapley values work as a payment mechanism in this context. Section \ref{chapter3} provides numerical results, illustrating the synergy among a number of assets and the corresponding payment allocation mechanism. Finally, Section \ref{chapter4} concludes the paper and outlines  potential directions for the future work.
+Section \ref{chapter2} introduces the proposed simulation setup. This includes an introduction to the mFRR services, the simulation setup, and how Shapley values work as a payment mechanism in this context. Section \ref{chapter3} provides numerical results, illustrating the synergy among a number of assets and the corresponding payment allocation mechanism. Finally, Section \ref{chapter4} concludes the paper and outlines  potential directions for the future work.
 
 \section{Simulation setup}
 \label{chapter2}
@@ -143,13 +143,13 @@ Section \ref{chapter2} introduces the proposed simulation setup. This includes a
 Ancillary services including mFRR are exploited by the TSO to balance the power system such that at any instant the total production meets the total demand, maintaining the nominal power grid frequency (50 Hz in Europe). In Denmark, mFRR (as the tertiary reserve) is deployed after the activation of comparatively faster ancillary services when a frequency drop occurs --- mFRR is only used for up-regulation. The mFRR service providers are paid according to their (\textit{i}) capacity in terms of MW, and (\textit{ii}) up-regulation in terms of MWh, if activated. Often, the mFRR providers are not activated, so their upfront earning from the mFRR capacity availability constitutes a passive income. In our setup, we apply a penalty when the mFRR provider fails in the activation stage, i.e., the capacity does not match the actual up-regulation. For the coalition of flexible demands, this could happen  due to erroneous  flexible capacity estimation or unexpected failures when activating individual assets for up-regulation, e.g.,  because of violating the temperature thresholds of thermostatically controlled loads. %Bid prices are ignore for simplicity.
 For further details about mFRR, see  \cite{energinet:prequalification}, \cite{energinet:Systemydelser}, and \cite{energinet:tender_conditions_reserves}.
 
-\subsection{Optimization problem of the aggregator}
+\subsection{Simulation setup for the aggregator}
 We use historical mFRR market prices, balancing market prices, and spot (day-ahead) market prices from DK1 bidding zone (western Denmark) in 2022 \cite{energinet:energidataservice}, denoted by $\lambda_{h}^{\text{mFRR}}$, $\lambda_{h}^{\text{b}}$, and $\lambda_{h}^{\text{s}}$, respectively,  for every hour $h$. The constant penalty price for the failure in the activation stage is denoted by $\lambda^{\text{p}}$. We assume a daily time horizon, and run the simulation for all days in 2022. For simplicity, we do not consider potential sources of uncertainty.
 
 At the stage that the hourly baseline consumption forecasts $P^{\text{Base}}_{h}$ of the collation are given, the objective function of the aggregator is to maximize the total profit for the coalition, which can be mathematically formulated as
 %
 \begin{align}\label{eq:mFRRObjective}
-     & \underset{p^{\text{mFRR}}_{h}, p^{\text{b},\uparrow}_{h}, p^{\text{b},\downarrow}_{h}, s_{h}}{\rm{maximize}} \ - \underbrace{\sum_{h=1}^{24} \lambda^{\text{s}}_{h}P^{\text{Base}}_{h}}_{\textrm{Energy cost}} + \underbrace{\sum_{h=1}^{24}\lambda_{h}^{\text{mFRR}} p^{\text{mFRR}}_{h}}_{\textrm{Reservation payment}}  \notag \\ & \quad \quad + \underbrace{\sum_{h=1}^{24}  \lambda_{h}^{\text{b}} p^{\text{b},\uparrow}_{h}}_{\textrm{Activation payment}} - \underbrace{\sum_{h=1}^{24}  \lambda_{h}^{\text{b}} p^{\text{b},\downarrow}_{h}}_{\textrm{Rebound cost}} - \underbrace{ \sum_{h=1}^{24}  \lambda^{\text{p}}s_{h}}_{\textrm{Penalty cost}}
+     &  - \underbrace{\sum_{h=1}^{24} \lambda^{\text{s}}_{h}P^{\text{Base}}_{h}}_{\textrm{Energy cost}} + \underbrace{\sum_{h=1}^{24}\lambda_{h}^{\text{mFRR}} p^{\text{mFRR}}_{h}}_{\textrm{Reservation payment}}  \notag \\ & \quad \quad + \underbrace{\sum_{h=1}^{24}  \lambda_{h}^{\text{b}} p^{\text{b},\uparrow}_{h}}_{\textrm{Activation payment}} - \underbrace{\sum_{h=1}^{24}  \lambda_{h}^{\text{b}} p^{\text{b},\downarrow}_{h}}_{\textrm{Rebound cost}} - \underbrace{ \sum_{h=1}^{24}  \lambda^{\text{p}}s_{h}}_{\textrm{Penalty cost}}
 \end{align}
 where Greek and upper-case symbols represent parameters, while lower-case symbols are variables. The objective function includes the energy cost for purchasing baseline demands $P^{\text{Base}}_{h}$ at spot prices $\lambda^{\text{s}}_{h}$, the reservation payment by selling mFRR services $p^{\text{mFRR}}_{h}$ at mFRR market prices $\lambda_{h}^{\text{mFRR}}$, the activation payment for up-regulations (i.e., load reduction) $p^{\text{b},\uparrow}_{h}$ at balancing prices $\lambda_{h}^{\text{b}}$, the rebound cost by extra consumption $p^{\text{b},\downarrow}_{h}$ at balancing prices $\lambda_{h}^{\text{b}}$, and finally the penalty cost, incurred by the up-regulation not delivered $s_{h}$, penalized at the constant price $\lambda^{\text{p}}$. %Note that the first term (energy cost) is fixed and can be excluded from the objective function, however, we have included it for illustration purposes. 
 
@@ -236,13 +236,12 @@ Note that the Shapley mechanism has desirable economic properties such as indivi
 
 \section{Results}\label{chapter3}
 
+\subsection{Input data}\label{chapter3}
 %In this section, we first show the assets being simulated and the flexible demands (groups) within the aggregated portfolio. Then results for the synergy effect is shown when the number of assets in the portfolio increases. Afterwards, we consider the payment allocation to flexible demands and investigate the impact of a flexible provider not delivering any up-regulation but only capacity.
 
 %\subsection{Visualization of groups and assets}
 
-We consider five flexible demands with 1000 assets in total. Each asset consumes 1 kW in one hour of the day, and nothing in the remaining hours. Figure \ref{fig:assets} shows the  consumption portfolio for a sample day, where 1000 assets, according to \eqref{eq:uniform}, are uniformly distributed among 24 hours. We consider 233 days with the same assets and ownership to five demands, however their consumption distribution over hours may differ.  
-
-Figure x illustrates the mFRR market prices $\lambda^{\text{mFRR}}$ as well as balancing market prices $\lambda^{\text{b}}$ and spot (day-ahead) market prices $\lambda^{\text{s}}$ for 233 days, consistent with the real data in DK1 for 2022. The penalty price $\lambda^{\text{p}}$ is fixed to 0.1 DKK/kWh. 
+We consider five flexible demands with 1000 assets in total. Each asset consumes 1 kW in one hour of the day, and nothing in the remaining hours. Figure \ref{fig:assets} shows the  consumption portfolio for a sample day, where 1000 assets, according to \eqref{eq:uniform}, are uniformly distributed among 24 hours. We run our simulation over 233 days with the same assets and ownership to five demands, however the daily consumption pattern  may differ.  Figure \ref{fig:prices}  illustrates the mFRR market prices $\lambda^{\text{mFRR}}_h$ as well as balancing market prices $\lambda^{\text{b}}_h$ and spot (day-ahead) market prices $\lambda^{\text{s}}_h$ for the first 233 days of 2022 in DK1. The penalty price $\lambda^{\text{p}}$ is fixed to 0.1 DKK/kWh. 
 
 %It is almost uniform and fairly predictable where each group is less predictable and each asset within each group even more so. The aggregated distribution approaches a uniform distribution as the number of assets increases.
 
@@ -253,14 +252,23 @@ Figure x illustrates the mFRR market prices $\lambda^{\text{mFRR}}$ as well as b
     \label{fig:assets}
 \end{figure}
 
-\subsection{Synergy effect of assets}
+\begin{figure}[b]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/prices.png}
+    \caption{Spot market prices ($\lambda^{\text{s}}_h$), balancing market prices ($\lambda^{\text{b}}_h$), and mFRR market prices ($\lambda^{\text{mFRR}}_h$)  over the first 233 days of 2022 in DK1.}
+    \label{fig:prices}
+\end{figure}
+
+
+
+\subsection{Synergy quantification}
 
 Figure \ref{fig:synergy_effect} shows the simulation of the synergy effect using eq. (\ref{eq:uniform}) and
 eq. (\ref{eq:synergy_effect}) for up to 1000 assets. Even with such uncertain assets, it only takes around 150 of these before the synergy effect flattens. In reality, much fewer assets are then needed to estimate their reserve capacity due to many real-life assets having a more predictable consumption than here..
 
 As discussed already, this of course ignores the synergy effect of controlling assets \textit{within} each hour to deliver a proper response. This probably requires a significant number of assets if all of them are ON/OFF controlled and if they are very heterogenous.
 
-\begin{figure}[b]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{figures/synergy_effect.png}
     \caption{Simulation of the impact on the synergy effect by increasing the number of assets. The rolling mean shows the average of the past 40 values.}
