@@ -54,7 +54,7 @@ class DataLoader:
         assert lambda_rp.shape == up_regulation_event.shape
 
         self._up_regulation_event = up_regulation_event
-        self._lambda_rp = lambda_rp / 1000  # kWh
+        self._lambda_rp = lambda_rp / 1000  # DKK/kWh
         self._lambda_spot = lambda_spot / 1000
         self._lambda_mfrr = lambda_mfrr / 1000
         self.M = lambda_rp.shape[0]
