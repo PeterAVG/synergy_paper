@@ -242,7 +242,8 @@ ax.set_xlabel("# of assets")
 ax.set_ylabel("Synergy effect")
 ax.legend()
 
-_set_font_size(ax, 16, 14)
+# _set_font_size(ax, 16, 14)
+_set_font_size(ax, 16, 20)
 plt.tight_layout()
 
 plt.savefig("tex/figures/synergy_effect_rebound_1.png", bbox_inches="tight", dpi=300)
